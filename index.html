@@ -1,137 +1,350 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShortClipStore | Play & Earn</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Modernes, dunkles Gaming-Design mit animiertem Hintergrund */
-        body {
-            background: linear-gradient(-45deg, #0f172a, #3b0764, #0f172a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: white;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EarnZone | Geld verdienen mit Apps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    body {
+      background: #0A0A0F;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #F1F5F9;
+      min-height: 100vh;
+    }
 
-        /* Glassmorphism-Effekt für die Buttons */
-        .glass-btn {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
+    /* Ambient glow top */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 480px;
+      height: 280px;
+      background: radial-gradient(ellipse, rgba(34,197,94,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .glass-btn:hover {
-            transform: translateY(-4px) scale(1.02);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px -10px rgba(147, 51, 234, 0.5);
-            border-color: rgba(168, 85, 247, 0.5);
-        }
+    .card {
+      background: #12121C;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-        /* Pulsierender Effekt für den Top-Button */
-        .pulse-border {
-            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(34,197,94,0.35);
+      box-shadow: 0 16px 40px -8px rgba(34,197,94,0.2);
+    }
 
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(168, 85, 247, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
-        }
-    </style>
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(34,197,94,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Top offer pulse */
+    .card-top {
+      border-color: rgba(34,197,94,0.4);
+      box-shadow: 0 0 0 0 rgba(34,197,94,0.4);
+      animation: greenPulse 2.5s ease-out infinite;
+    }
+
+    @keyframes greenPulse {
+      0%   { box-shadow: 0 0 0 0   rgba(34,197,94,0.45); }
+      70%  { box-shadow: 0 0 0 12px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0   rgba(34,197,94,0); }
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, #16A34A, #22C55E);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      border-radius: 14px;
+      padding: 14px 20px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: filter 0.2s ease, transform 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    .cta-btn:active {
+      transform: scale(0.97);
+    }
+
+    .cta-btn:hover {
+      filter: brightness(1.1);
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 8px;
+    }
+
+    .badge-hot {
+      background: rgba(239,68,68,0.15);
+      color: #F87171;
+      border: 1px solid rgba(239,68,68,0.3);
+    }
+
+    .badge-new {
+      background: rgba(245,158,11,0.15);
+      color: #FCD34D;
+      border: 1px solid rgba(245,158,11,0.3);
+    }
+
+    .badge-free {
+      background: rgba(34,197,94,0.12);
+      color: #4ADE80;
+      border: 1px solid rgba(34,197,94,0.3);
+    }
+
+    .benefit-dot {
+      width: 6px; height: 6px;
+      background: #22C55E;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .surprise-card {
+      background: linear-gradient(135deg, #1a1030, #0d1a30);
+      border: 1px solid rgba(168,85,247,0.25);
+      border-radius: 20px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .surprise-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px -8px rgba(168,85,247,0.25);
+      border-color: rgba(168,85,247,0.5);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .trust-bar {
+      background: #12121C;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .trust-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .trust-item + .trust-item {
+      border-left: 1px solid rgba(255,255,255,0.07);
+    }
+  </style>
 </head>
-<body class="flex flex-col items-center py-10 px-4 sm:px-6">
+<body class="flex flex-col items-center py-8 px-4">
 
-    <!-- Profil Header -->
-    <div class="text-center mb-10 w-full max-w-md animate-fade-in-down">
-        <!-- Avatar mit Neon-Glow -->
-        <div class="w-28 h-28 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-full mx-auto mb-5 flex items-center justify-center text-5xl shadow-[0_0_30px_rgba(168,85,247,0.5)] border-2 border-white/20">
-            🎮
+  <div class="w-full max-w-md relative z-10">
+
+    <!-- HERO -->
+    <div class="text-center mb-7">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-green-600 to-emerald-500 shadow-lg shadow-green-900/40 mb-4 text-3xl">
+        💰
+      </div>
+      <h1 class="text-[28px] font-black tracking-tight leading-tight mb-2">
+        Geld verdienen<br />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
+          mit deinem Handy
+        </span>
+      </h1>
+      <p class="text-sm text-slate-400 max-w-xs mx-auto leading-relaxed">
+        Echte Auszahlungen. Keine Investition. Einfach App laden, kurze Aufgabe erledigen, Geld kassieren.
+      </p>
+    </div>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar mb-6">
+      <div class="trust-item">
+        <div class="text-green-400 font-bold text-base">Kostenlos</div>
+        <div class="text-slate-500 text-xs mt-0.5">kein Risiko</div>
+      </div>
+      <div class="trust-item">
+        <div class="text-green-400 font-bold text-base">Schnell</div>
+        <div class="text-slate-500 text-xs mt-0.5">ab 5 Min.</div>
+      </div>
+      <div class="trust-item">
+        <div class="text-green-400 font-bold text-base">Auszahlung</div>
+        <div class="text-slate-500 text-xs mt-0.5">via PayPal</div>
+      </div>
+    </div>
+
+    <!-- MAIN OFFERS -->
+    <div class="space-y-4 mb-4">
+
+      <!-- OFFER 1: TimeBucks -->
+      <a href="https://www.directcpi.com/view.php?id=5545518&pub=3351523" target="_blank" rel="noopener" class="card card-top block p-5">
+        <div class="flex items-start gap-4">
+          <div class="text-3xl leading-none mt-0.5">⏱️</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+              <h2 class="font-extrabold text-base text-white">TimeBucks</h2>
+              <span class="badge badge-hot">🔥 Top</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+              Geld verdienen durch Umfragen, Videos schauen & kleine Aufgaben.
+            </p>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Sofortige Gutschrift auf dein Konto</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Auszahlung ab $1 via PayPal & Bitcoin</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Täglich neue Aufgaben verfügbar</span>
+              </div>
+            </div>
+            <div class="cta-btn">
+              Jetzt kostenlos starten →
+            </div>
+          </div>
         </div>
-        <h1 class="text-3xl font-extrabold tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">
-            ShortClipStore
-        </h1>
-        <p class="text-gray-300 font-medium text-sm px-4">
-            Werde fürs Spielen bezahlt. Lade die Apps runter, zocke ein paar Minuten und sichere dir echte Payouts! 💸
-        </p>
-    </div>
+      </a>
 
-    <!-- Link Container -->
-    <div class="w-full max-w-md space-y-4">
-        
-        <!-- Angebot 1: Test em All (Top Empfehlung) -->
-        <a href="https://www.cdndn.com/view.php?id=5544266&pub=3351523" target="_blank" class="glass-btn block w-full text-white p-4 rounded-2xl pulse-border group">
-            <div class="flex items-center justify-between">
-                <span class="text-2xl mr-3 group-hover:scale-110 transition-transform">🔥</span>
-                <div class="flex-1 text-left">
-                    <h2 class="font-bold text-lg">Test em All (Top Payout)</h2>
-                    <p class="text-xs text-purple-300 font-semibold mt-1">2 Min. spielen = Auszahlung</p>
-                </div>
-                <span class="bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-1 rounded border border-green-500/30">Android</span>
+      <!-- OFFER 2: MoneyTune -->
+      <a href="https://www.appstorevault.mobi/view.php?id=5544069&pub=3351523" target="_blank" rel="noopener" class="card block p-5">
+        <div class="flex items-start gap-4">
+          <div class="text-3xl leading-none mt-0.5">🎵</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+              <h2 class="font-extrabold text-base text-white">MoneyTune</h2>
+              <span class="badge badge-new">Neu</span>
             </div>
-        </a>
-
-        <!-- Angebot 2: Just Games -->
-        <!-- HINWEIS: Hier den direkten Link für Just Games einfügen, falls du ihn hast. Sonst auf Testemall leiten -->
-        <a href="https://www.fastsvr.com/view.php?id=5543321&pub=3351523" target="_blank" class="glass-btn block w-full text-white p-4 rounded-2xl group">
-            <div class="flex items-center justify-between">
-                <span class="text-2xl mr-3 group-hover:scale-110 transition-transform">🕹️</span>
-                <div class="flex-1 text-left">
-                    <h2 class="font-bold text-lg">Just Games DE</h2>
-                    <p class="text-xs text-gray-400 font-medium mt-1">3 kurze Mini-Games testen</p>
-                </div>
-                <span class="bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-1 rounded border border-green-500/30">Android</span>
+            <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+              Musik hören und dabei Geld verdienen – deine erste $2-Auszahlung wartet.
+            </p>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">$2 Willkommensbonus für neue Nutzer</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Kein aktives Zutun nötig – App läuft im Hintergrund</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Schnelle Auszahlung via PayPal</span>
+              </div>
             </div>
-        </a>
-
-        <!-- Angebot 3: Testemall Alternative -->
-        <a href="https://www.directcpi.com/view.php?id=5544630&pub=3351523" target="_blank" class="glass-btn block w-full text-white p-4 rounded-2xl group">
-            <div class="flex items-center justify-between">
-                <span class="text-2xl mr-3 group-hover:scale-110 transition-transform">📱</span>
-                <div class="flex-1 text-left">
-                    <h2 class="font-bold text-lg">Testemall Bonus</h2>
-                    <p class="text-xs text-gray-400 font-medium mt-1">Lade die App und starte</p>
-                </div>
-                <span class="bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-1 rounded border border-green-500/30">Android</span>
+            <div class="cta-btn">
+              $2 Bonus abholen →
             </div>
-        </a>
-
-        <!-- Divider -->
-        <div class="flex items-center py-4">
-            <div class="flex-grow border-t border-white/10"></div>
-            <span class="flex-shrink-0 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Oder probiere das</span>
-            <div class="flex-grow border-t border-white/10"></div>
+          </div>
         </div>
+      </a>
 
-        <!-- Angebot 4: Adsterra Smartlink (Für alle Geräte / iPhone Fallback) -->
-        <a href="https://www.effectivecpmnetwork.com/v8f34w8s?key=6b6ebb3b7c770d8ca3b17f7a7b48ed15" target="_blank" class="block w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white p-4 rounded-2xl transition-all hover:scale-[1.02] shadow-[0_10px_20px_-10px_rgba(6,182,212,0.5)]">
-            <div class="flex items-center justify-between">
-                <span class="text-2xl mr-3">🎁</span>
-                <div class="flex-1 text-left">
-                    <h2 class="font-bold text-lg">Tagesaktuelle Überraschung</h2>
-                    <p class="text-xs text-blue-100 font-medium mt-1">Exklusive Boni für dein Gerät</p>
-                </div>
-                <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-1 rounded border border-white/30">Alle Geräte</span>
+      <!-- OFFER 3: CashKarma -->
+      <a href="https://www.directcpi.com/view.php?id=5544019&pub=3351523" target="_blank" rel="noopener" class="card block p-5">
+        <div class="flex items-start gap-4">
+          <div class="text-3xl leading-none mt-0.5">🌟</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+              <h2 class="font-extrabold text-base text-white">CashKarma</h2>
+              <span class="badge badge-free">Gratis</span>
             </div>
-        </a>
+            <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+              Punkte sammeln, einlösen, auszahlen. Einfaches Prinzip – echtes Geld.
+            </p>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Sofort Level 1 erreichen & Payout freischalten</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Amazon, PayPal & Google Play Gutscheine</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <div class="benefit-dot"></div>
+                <span class="text-xs text-slate-300">Freunde einladen = extra Punkte</span>
+              </div>
+            </div>
+            <div class="cta-btn">
+              Punkte sammeln starten →
+            </div>
+          </div>
+        </div>
+      </a>
 
     </div>
 
-    <!-- Footer -->
-    <div class="mt-12 text-[10px] text-gray-600 text-center max-w-xs">
-        <p>© 2026 ShortClipStore. Keine Gewinngarantie. Die Auszahlungen variieren je nach Angebot. Nur ab 18 Jahren.</p>
+    <!-- DIVIDER -->
+    <div class="divider my-6">
+      <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest whitespace-nowrap">
+        oder entdecke das
+      </span>
     </div>
 
+    <!-- SURPRISE / ADSTERRA SMARTLINK -->
+    <a href="https://www.effectivecpmnetwork.com/v8f34w8s?key=6b6ebb3b7c770d8ca3b17f7a7b48ed15" target="_blank" rel="noopener" class="surprise-card block p-5 mb-8">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-lg shadow-purple-900/40">
+          🎁
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-0.5">
+            <h2 class="font-extrabold text-sm text-white">Tagesangebot für dich</h2>
+            <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+          </div>
+          <p class="text-xs text-slate-400 leading-snug">
+            Exklusives Angebot – speziell für dein Gerät ausgewählt
+          </p>
+        </div>
+        <div class="text-purple-400 text-lg font-bold">›</div>
+      </div>
+    </a>
+
+    <!-- FOOTER -->
+    <div class="text-center text-[10px] text-slate-600 leading-relaxed px-2">
+      <p>© 2026 EarnZone. Werbung / Affiliate-Links. Auszahlungsbeträge variieren je nach Angebot und Gerät. Keine Einkommensgarantie. Nur für Nutzer ab 18 Jahren.</p>
+    </div>
+
+  </div>
 </body>
 </html>
